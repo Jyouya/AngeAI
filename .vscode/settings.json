@@ -1,0 +1,16 @@
+{
+    "Lua.diagnostics.globals": [
+        "GetTick",
+        "TraceAI",
+        "GetV",
+        "MoveToOwner",
+        "GetActors",
+        "GetResMsg",
+        "GetMsg",
+        "SkillObject",
+        "Move",
+        "unpack",
+        "Attack",
+        "SkillGround"
+    ]
+}
