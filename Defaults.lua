@@ -25,14 +25,14 @@ do
 
 end
 
-DefaultMob = {
-  priority = 1,
-  masterPriority = 10,
-  homunPriority = 4,
-  assistPriority = 5,
-  melee = true, -- will try to melee target, even while bolting
-  bolts = -1 -- no limit on vanil bolts per target
-}
+-- DefaultMob = {
+--   priority = 1,
+--   masterPriority = 10,
+--   homunPriority = 4,
+--   assistPriority = 5,
+--   melee = true, -- will try to melee target, even while bolting
+--   bolts = -1 -- no limit on vanil bolts per target
+-- }
 
 MobSettings = setmetatable(dofile('./AI/USER_AI/MobConfig.lua'),
                            {__index = function(t) return t.default end})
