@@ -1,25 +1,7 @@
-function CustomIsMonster(mobId) return mobId > 1001 and mobId < 3999 end
-
--- reduce function from Windower4 functions library
--- function table.reduce(t, fn, init)
---   -- Set the accumulator variable to the init value (which can be nil as well)
---   local acc = init
---   for _, value in ipairs(t) do
---     if init then
---       acc = fn(acc, value)
---     else
---       acc = value
---       init = true
---     end
---   end
-
---   return acc
--- end
-
--- function table.contains(t, v)
---   for _, value in pairs(t) do if value == v then return true end end
---   return false
--- end
+-- 2723 through 2810 reserved for custom donation pets
+function CustomIsMonster(mobId)
+  return mobId > 1001 and mobId <= 3999 and (mobId < 2723 or mobId > 2810)
+end
 
 function GetDistanceSquared(id1, id2)
   local id1X, id1Y = GetV(V_POSITION, id1)

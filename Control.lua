@@ -18,6 +18,21 @@ do
                 res)
     end
   end
+
+  local stateStack = T {}
+  function PushState(newState)
+    stateStack:append(State)
+    SetState(newState)
+  end
+
+  function PopState()
+    if #stateStack > 0 then
+      TraceAI(#stateStack)
+      local res = stateStack:remove(#stateStack)
+      SetState(res)
+      return res
+    end
+  end
 end
 
 function BeginAttack(targetId)
@@ -138,12 +153,19 @@ do
     local event = {}
     Events:emit('cycleStart', event)
 
-    stateCallTable[State](event)
+    local fn = stateCallTable[State]
+
+    if fn then
+      fn(event)
+    else
+      Events:emit(State, event)
+    end
   end
 end
 
 function FindTarget()
-  local mobs = {}
+  local mobs = T {}
+  -- local assistTarget = T {}
 
   for _, actorId in ipairs(World.actors) do
     -- Determine mob Priority
@@ -172,6 +194,8 @@ function FindTarget()
       TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))
 
       -- TODO: check if master is attacking something, and add assist priority
+      -- ! doesn't work.
+      -- if actorId == World.ownerId then assistTarget:append({target, mobId}) end
 
       if priority > 0 and not blacklisted and actorId > 0 then
         mobs[#mobs + 1] = {mob.priority, actorId}
@@ -179,8 +203,13 @@ function FindTarget()
     end
   end
 
+  -- for _, v in ipairs(assistTarget) do
+  --   local mob, i = mobs:with(2, v[1])
+  --   mobs[i][1] = mob[1] + MobSettings[v[2]].assistPriority
+  -- end
+
   if #mobs > 0 then
-    local target = table.reduce(mobs, function(a, b)
+    local target = mobs:reduce(function(a, b)
       if a[1] == b[1] then -- targets are same priority, return the closest target
         return GetDistanceSquared(World.myId, a[2]) <
                  GetDistanceSquared(World.myId, b[2]) and a or b
