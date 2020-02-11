@@ -8,11 +8,13 @@ local passive = { -- Homun will not attack unless attacked
   bolts = -1
 }
 
-local ignore = { -- Homun will never attack
+local ignore = { -- Homun will never attack unless you command it to
   priority = 0,
   masterPriority = 0,
   homunPriority = 0,
-  assistPriority = 0
+  assistPriority = 0,
+  melee = true,
+  bolts = -1
 }
 
 local doNotBolt = {

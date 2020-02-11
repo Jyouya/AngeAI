@@ -16,12 +16,10 @@ function RangeAttack(event, next)
     prevAttackTarget = AttackTarget
     boltCounter = MobSettings[mobId].bolts or 0
   end
-  if boltCounter then
-    if World.mySP >= (20 + 2 * capriceLvl) and SkillDelay < World.tick or
-      boltCounter < 0 then
-      SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
-      SetSkillDelay(caprice[capriceLvl].delay)
-    end
+  if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
+    World.mySP >= (20 + 2 * capriceLvl) then
+    SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
+    SetSkillDelay(caprice[capriceLvl].delay)
   end
 
   next()
@@ -37,7 +35,7 @@ function RangeAttackDuringChase(event, next)
       boltCounter = MobSettings[mobId].bolts or 0
     end
 
-    if boltCounter and World.mySP >= (20 + 2 * capriceLvl) and SkillDelay <
+    if boltCounter ~= 0 and World.mySP >= (20 + 2 * capriceLvl) and SkillDelay <
       World.tick then
       SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
       SetSkillDelay(caprice[capriceLvl].delay)
@@ -54,8 +52,8 @@ function RangedAttackDuringMelee(event, next)
     prevAttackTarget = AttackTarget
     boltCounter = MobSettings[mobId].bolts or 0
   end
-  if boltCounter and World.mySP >= (20 + 2 * capriceLvl) and SkillDelay <
-    World.tick then
+  if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
+    World.mySP >= (20 + 2 * capriceLvl) then
     TraceAI('bolting')
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
