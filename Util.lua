@@ -9,6 +9,9 @@ function GetDistanceSquared(id1, id2)
   return (id1X - id2X) ^ 2 + (id1Y - id2Y) ^ 2
 end
 
+function GetDistanceSquared2(x1, y1, x2, y2) return
+  (x1 - x2) ^ 2 + (y1 - y2) ^ 2 end
+
 function TaxiDistance(id1, id2)
   local id1X, id1Y = GetV(V_POSITION, id1)
   local id2X, id2Y = GetV(V_POSITION, id2)
@@ -17,6 +20,16 @@ end
 
 function TaxiDistance2(x1, y1, x2, y2)
   return math.max(math.abs(x1 - x2), math.abs(y1 - y2))
+end
+
+function LongMove(x, y)
+  local euclidDist = GetDistanceSquared2(World.myPosition.x, World.myPosition.y,
+                                         x, y)
+  if euclidDist >= 121 then
+    x = math.floor((x + World.myPosition.x) / 2)
+    y = math.floor((y + World.myPosition.y) / 2)
+  end
+  Move(World.myId, x, y)
 end
 
 do
@@ -80,3 +93,9 @@ do
   })
 end
 
+function SetSkillDelay(delay)
+  SkillDelay = World.tick + delay
+  local file = io.open('./AI/USER_AI/skillDelay.lua', 'w')
+  file:write('return ' .. SkillDelay)
+  file:close()
+end

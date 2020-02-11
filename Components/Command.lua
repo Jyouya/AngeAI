@@ -16,7 +16,7 @@ do
   function MoveTo(event, next)
 
     if World.myPosition.x ~= cmdX or World.myPosition.y ~= cmdY then
-      Move(World.myId, cmdX, cmdY)
+      LongMove(cmdX, cmdY)
 
       -- Pass the command coordinates in case anything down the line wants them
       event.cmdX, event.cmdY = cmdX, cmdY
@@ -35,6 +35,10 @@ end
 
 function HandleSkillAreaCommand(lvl, skill, x, y)
   SkillGround(World.myId, lvl, skill, x, y)
+end
+
+function HandleAttackObjectCommand(targetId)
+  BeginAttack(targetId)
 end
 
 do
@@ -57,7 +61,8 @@ local commands = {
   [MOVE_CMD] = HandleMoveCommand,
   [FOLLOW_CMD] = HandleFollowCommand,
   [SKILL_OBJECT_CMD] = HandleSkillObjectCommand,
-  [SKILL_AREA_CMD] = HandleSkillAreaCommand
+  [SKILL_AREA_CMD] = HandleSkillAreaCommand,
+  [ATTACK_OBJECT_CMD] = HandleAttackObjectCommand
 }
 
 local function doCommand(msg)

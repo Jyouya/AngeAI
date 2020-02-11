@@ -35,19 +35,12 @@ DefaultMob = {
 }
 
 MobSettings = setmetatable(dofile('./AI/USER_AI/MobConfig.lua'),
-                           {__index = function() return DefaultMob end})
+                           {__index = function(t) return t.default end})
 
 ActorBlacklist = {}
 
 if not pcall(function() SkillDelay = dofile('./AI/USER_AI/skillDelay.lua') end) then
   SkillDelay = GetTick() - 1
-end
-
-function SetSkillDelay(delay)
-  SkillDelay = World.tick + delay
-  local file = io.open('./AI/USER_AI/skillDelay.lua', 'w')
-  file:write('return ' .. SkillDelay)
-  file:close()
 end
 
 World = setmetatable({}, {

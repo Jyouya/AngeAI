@@ -24,7 +24,19 @@ local doNotBolt = {
   bolts = 0
 }
 
+-- Edit this table to change default behavior
+local default = {
+  priority = 1,
+  masterPriority = 10,
+  homunPriority = 4,
+  assistPriority = 5,
+  melee = true, -- will try to melee target, even while bolting
+  bolts = -1 -- no limit on vanil bolts per target
+}
+
 return {
+  default = default, -- ! DO NOT EDIT THIS LINE
+
   [1589] = passive, -- Summon Plant Mandragora
   [1579] = passive, -- Summon Plant Hydra
   [1575] = passive, -- Summon Plant Flora
