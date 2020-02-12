@@ -35,22 +35,6 @@ do
   end
 end
 
-function BeginAttack(targetId)
-
-  TraceAI('Targetting ' .. targetId)
-  AttackTarget = targetId
-
-  local dist = TaxiDistance(World.myId, targetId)
-
-  -- Attack if in range, else chase
-  if dist > 1 then
-    return SetState('CHASE')
-  else
-    return SetState('ATTACK')
-  end
-
-end
-
 local homunTypeNames = {
 
   [LIF] = 'Lif',
@@ -70,21 +54,41 @@ local homunTypeNames = {
   [VANILMIRTH_H] = 'Vanilmirth',
   [VANILMIRTH_H2] = 'Vanilmirth'
 }
-
-local function onLoad(event)
-  local status, err = pcall(function()
+local onLoad
+do
+  local protoMobSettings
+  onLoad = function(event)
     local myType = homunTypeNames[World.myType]
-    TraceAI('Hi, I\'m a ' .. myType)
-    dofile('./AI/USER_AI/User Scripts/' .. homunTypeNames[World.myType] ..
-             '.lua')
-  end)
 
-  if not status then TraceAI('Failed to load user script file: ' .. err) end
+    local status, err = pcall(function()
+      TraceAI('Hi, I\'m a ' .. myType)
+      dofile('./AI/USER_AI/User Scripts/' .. myType .. '.lua')
+    end)
 
-  Events:emit('load', event)
+    if not status then TraceAI('Failed to load user script file: ' .. err) end
 
-  SetState('IDLE')
-  -- Events:emit('idle')
+    -- Load global config and homun type specific mob config
+    -- Use prototypical delegation so it checks momSpecific -> global -> default for mob settings
+    xpcall(function()
+      local globalMobConfig = dofile('./AI/USER_AI/Config/MobConfig.lua')
+      local typeSpecificMobConfig = dofile(
+                                      './AI/USER_AI/Config/' .. myType ..
+                                        '.config.lua')
+
+      local protoMobSettings = setmetatable(globalMobConfig, {
+        __index = function(t) return t.default end
+      })
+
+      MobSettings = setmetatable(typeSpecificMobConfig,
+                                 {__index = protoMobSettings})
+
+    end, function(err) TraceAI('Error loading config: ' .. err) end)
+
+    Events:emit('load', event)
+
+    SetState('IDLE')
+    -- Events:emit('idle')
+  end
 end
 
 local function onIdle(event) Events:emit('idle', event) end
@@ -163,71 +167,3 @@ do
   end
 end
 
-function FindTarget()
-  local mobs = T {}
-  -- local assistTarget = T {}
-
-  for _, actorId in ipairs(World.actors) do
-    -- Determine mob Priority
-    -- Read priority from table or default
-    -- Add priority if attacking master/homun
-    local mobId = GetV(V_HOMUNTYPE, actorId)
-    if CustomIsMonster(mobId) then
-      local target = GetV(V_TARGET, actorId)
-      local mob = MobSettings[mobId]
-      local priority = mob.priority
-
-      local blacklisted = ActorBlacklist[target]
-
-      -- ? Should we allow the homun to protect additional targets other than master
-
-      if target == World.ownerId then
-        priority = priority +
-                     (mob.masterPriority ~= nil and mob.masterPriority or
-                       DefaultMob.masterPriority)
-      elseif target == World.myId then
-        priority = priority +
-                     (mob.homunPriority ~= nil and mob.homunPriority or
-                       DefaultMob.homunPriority)
-      end
-
-      TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))
-
-      -- TODO: check if master is attacking something, and add assist priority
-      -- ! doesn't work.
-      -- if actorId == World.ownerId then assistTarget:append({target, mobId}) end
-
-      if priority > 0 and not blacklisted and actorId > 0 then
-        mobs[#mobs + 1] = {mob.priority, actorId}
-      end
-    end
-  end
-
-  -- for _, v in ipairs(assistTarget) do
-  --   local mob, i = mobs:with(2, v[1])
-  --   mobs[i][1] = mob[1] + MobSettings[v[2]].assistPriority
-  -- end
-
-  if #mobs > 0 then
-    local target = mobs:reduce(function(a, b)
-      if a[1] == b[1] then -- targets are same priority, return the closest target
-        return GetDistanceSquared(World.myId, a[2]) <
-                 GetDistanceSquared(World.myId, b[2]) and a or b
-      else
-        return a[1] > b[1] and a or b
-      end
-    end)
-    return target[2]
-  end
-end
-
--- Remove anything from the blacklist that was added more than 5 seconds ago
-function CullBlacklist(event, next)
-
-  local expired = World.tick - 5000
-  for k, v in pairs(ActorBlacklist) do
-    if v < expired then ActorBlacklist[k] = nil end
-  end
-
-  next()
-end

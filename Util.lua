@@ -1,7 +1,7 @@
 -- 2723 through 2810 reserved for custom donation pets
-function CustomIsMonster(mobId)
+function CustomIsMonster(actorId)
   -- return mobId > 1001 and mobId <= 3999 and (mobId < 2723 or mobId > 2810)
-  return IsMonster(mobId) ~= 0 -- gravity fixed their shit it looks like
+  return IsMonster(actorId) ~= 0 -- gravity fixed their shit it looks like
 end
 
 function GetDistanceSquared(id1, id2)
@@ -127,3 +127,88 @@ do
     return 'Unknown'
   end
 end
+
+function BeginAttack(targetId)
+
+  TraceAI('Targetting ' .. targetId)
+  AttackTarget = targetId
+
+  local dist = TaxiDistance(World.myId, targetId)
+
+  -- Attack if in range, else chase
+  if dist > 1 then
+    return SetState('CHASE')
+  else
+    return SetState('ATTACK')
+  end
+end
+
+function FindTarget()
+  local mobs = T {}
+  -- local assistTarget = T {}
+
+  for _, actorId in ipairs(World.actors) do
+    -- Determine mob Priority
+    -- Read priority from table or default
+    -- Add priority if attacking master/homun
+    local mobId = GetV(V_HOMUNTYPE, actorId)
+    if CustomIsMonster(actorId) then
+      local target = GetV(V_TARGET, actorId)
+      local mob = MobSettings[mobId]
+      local priority = mob.priority
+
+      local blacklisted = ActorBlacklist[target]
+
+      -- ? Should we allow the homun to protect additional targets other than master
+
+      if target == World.ownerId then
+        priority = priority +
+                     (mob.masterPriority ~= nil and mob.masterPriority or
+                       MobSettings.default.masterPriority)
+      elseif target == World.myId then
+        priority = priority +
+                     (mob.homunPriority ~= nil and mob.homunPriority or
+                       MobSettings.default.homunPriority)
+      end
+
+      TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))
+
+      -- TODO: check if master is attacking something, and add assist priority
+      -- ! doesn't work.
+      -- if actorId == World.ownerId then assistTarget:append({target, mobId}) end
+
+      if priority > 0 and not blacklisted and actorId > 0 then
+        mobs[#mobs + 1] = {mob.priority, actorId}
+      end
+    end
+  end
+
+  -- for _, v in ipairs(assistTarget) do
+  --   local mob, i = mobs:with(2, v[1])
+  --   mobs[i][1] = mob[1] + MobSettings[v[2]].assistPriority
+  -- end
+
+  if #mobs > 0 then
+    local target = mobs:reduce(function(a, b)
+      if a[1] == b[1] then -- targets are same priority, return the closest target
+        return GetDistanceSquared(World.myId, a[2]) <
+                 GetDistanceSquared(World.myId, b[2]) and a or b
+      else
+        return a[1] > b[1] and a or b
+      end
+    end)
+    return target[2]
+  end
+end
+
+-- Remove anything from the blacklist that was added more than 5 seconds ago
+function CullBlacklist(event, next)
+
+  local expired = World.tick - 5000
+  for k, v in pairs(ActorBlacklist) do
+    if v < expired then ActorBlacklist[k] = nil end
+  end
+
+  next()
+end
+
