@@ -47,8 +47,9 @@ return {
 
   [2191] = ignore, -- seaweed
 
-  [1057] = ignore, -- yoyo
-  [1002] = ignore, -- poring
-  [1180] = ignore, -- ninetail
-  [1031] = ignore
+  -- [1057] = ignore, -- yoyo
+  -- [1002] = ignore, -- poring
+  -- [1180] = ignore, -- ninetail
+  -- [1031] = ignore, -- poporing
+  -- [3880] = ignore
 }

@@ -3,7 +3,7 @@ local modules = {
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
   'AutoHeel', 'GuardOwner', 'HybridAttack', 'RangeAttack', 'HybridDance',
   'HybridChase', 'RangeChase', 'RangeDance', 'CheckMelee', 'FindBards',
-  'GetSong', 'CheckSong'
+  'GetSong', 'CheckSong', --'Debug'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -18,6 +18,7 @@ Events:on('cycleStart', AutoHeel)
 Events:on('cycleStart', AutoLoggout)
 Events:on('cycleStart', FindBards)
 Events:on('cycleStart', CheckSong)
+-- Events:on('cycleStart', TraceActorInfo)
 
 Events:on('idle', ProcessCommandQueue)
 Events:on('idle', SelectTarget)

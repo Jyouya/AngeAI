@@ -11,6 +11,7 @@
         "Move",
         "unpack",
         "Attack",
-        "SkillGround"
+        "SkillGround",
+        "IsMonster"
     ]
 }

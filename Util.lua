@@ -1,6 +1,7 @@
 -- 2723 through 2810 reserved for custom donation pets
 function CustomIsMonster(mobId)
-  return mobId > 1001 and mobId <= 3999 and (mobId < 2723 or mobId > 2810)
+  -- return mobId > 1001 and mobId <= 3999 and (mobId < 2723 or mobId > 2810)
+  return IsMonster(mobId) ~= 0 -- gravity fixed their shit it looks like
 end
 
 function GetDistanceSquared(id1, id2)
@@ -98,4 +99,31 @@ function SetSkillDelay(delay)
   local file = io.open('./AI/USER_AI/skillDelay.lua', 'w')
   file:write('return ' .. SkillDelay)
   file:close()
+end
+
+do
+  local mobIdLookup = {
+    [45] = 'Portal',
+    [844] = 'Invisible NPC',
+    [111] = 'Invisible NPC'
+  }
+  local playerCiel = 110000000
+
+  function ActorType(id)
+    local mobType = GetV(V_HOMUNTYPE, id)
+    if mobIdLookup[mobType] then return mobIdLookup[mobType] end
+    if id < playerCiel then
+      return 'Player'
+    elseif mobType <= 16 then
+      return 'Homunculus'
+    elseif mobType < 1000 or mobType >= 4000 then
+      return 'NPC'
+    elseif IsMonster(id) ~= 0 then
+      return 'Mob'
+    else
+      return 'Pet'
+    end
+
+    return 'Unknown'
+  end
 end
