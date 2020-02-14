@@ -27,7 +27,6 @@ Events:on('chase', MeleeChase)
 Events:on('chase', StuckCheck)
 
 Events:on('attack', ValidateTarget)
-Events:on('attack', MentalChangeOnAttack)
 Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeAttack)
 Events:on('attack', MoonlightSpam)
