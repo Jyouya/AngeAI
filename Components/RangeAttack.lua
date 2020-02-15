@@ -54,11 +54,9 @@ function RangedAttackDuringMelee(event, next)
   end
   if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
     World.mySP >= (20 + 2 * capriceLvl) then
-    TraceAI('bolting')
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
   end
 
   next()
-
 end
