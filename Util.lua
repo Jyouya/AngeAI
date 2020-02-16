@@ -166,9 +166,8 @@ function FindTarget()
                      (mob.masterPriority ~= nil and mob.masterPriority or
                        MobSettings.default.masterPriority)
       elseif target == World.myId then
-        priority = priority +
-                     (mob.homunPriority ~= nil and mob.homunPriority or
-                       MobSettings.default.homunPriority)
+        priority = priority + (mob.homunPriority ~= nil and mob.homunPriority or
+                     MobSettings.default.homunPriority)
       end
 
       TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))
@@ -212,3 +211,7 @@ function CullBlacklist(event, next)
   next()
 end
 
+function UnitVector(vx, vy)
+  local m = math.sqrt(vx ^ 2 + vy ^ 2)
+  return vx / m, vy / m
+end

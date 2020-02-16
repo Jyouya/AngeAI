@@ -76,7 +76,7 @@ do
                                         '.config.lua')
 
       local protoMobSettings = setmetatable(globalMobConfig, {
-        __index = function(t) return t.default end
+        __index = function(t) return MobSettings.default end
       })
 
       MobSettings = setmetatable(typeSpecificMobConfig,

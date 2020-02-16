@@ -1,9 +1,8 @@
 function MeleeChase(event, next)
-  local targetX, targetY = GetV(V_POSITION, AttackTarget)
 
-  LongMove(targetX, targetY)
-  local dist = TaxiDistance2(World.myPosition.x, World.myPosition.y, targetX,
-                             targetY)
+  LongMove(event.target.x, event.target.y)
+  local dist = TaxiDistance2(World.myPosition.x, World.myPosition.y,
+                             event.target.x, event.target.y)
   if dist == 1 then SetState('ATTACK') end
   next()
 end

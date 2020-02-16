@@ -1,5 +1,5 @@
 function HybridAttack(event, next)
-  if event.melee then
+  if event.target.mobConfig.melee then
     MeleeAttack(event, function() RangedAttackDuringMelee(event, next) end)
   else
     RangeAttack(event, next)

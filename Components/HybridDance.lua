@@ -1,5 +1,5 @@
 function HybridDance(event, next)
-  if event.melee then
+  if event.target.mobConfig.melee then
     MeleeDance(event, next)
   else
     RangeDance(event, next)

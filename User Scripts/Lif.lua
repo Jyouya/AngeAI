@@ -1,7 +1,8 @@
 local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'MentalChange', 'EmergencyAvoid', 'CheckLeash', 'MeleeAttack',
-  'ValidateTarget', 'MeleeDance', 'Command', 'AutoHeel', 'GuardOwner'
+  'ValidateTarget', 'MeleeDance', 'Command', 'AutoHeel', 'GuardOwner',
+  'TargetInfo'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -23,12 +24,14 @@ Events:on('idle', GuardOwner)
 Events:on('follow', FollowOwner)
 Events:on('follow', EmergencyAvoidOnChase)
 
+Events:on('chase', TargetInfo)
 Events:on('chase', ValidateTarget)
 Events:on('chase', MeleeChase)
 Events:on('chase', StuckCheck)
 Events:on('chase', EmergencyAvoidOnChase)
 Events:on('chase', MentalChangeOnChase)
 
+Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
 Events:on('attack', MentalChangeOnAttack)
 Events:on('attack', AttackingCheck)

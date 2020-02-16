@@ -12,9 +12,9 @@ local boltCounter
 
 function RangeAttack(event, next)
   if AttackTarget ~= prevAttackTarget then
-    local mobId = GetV(V_HOMUNTYPE, AttackTarget)
+    -- local mobId = GetV(V_HOMUNTYPE, AttackTarget)
     prevAttackTarget = AttackTarget
-    boltCounter = MobSettings[mobId].bolts or 0
+    boltCounter = event.target.mobConfig.bolts or 0
   end
   if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
     World.mySP >= (20 + 2 * capriceLvl) then
@@ -30,9 +30,9 @@ function RangeAttackDuringChase(event, next)
 
   if dist <= 81 then
     if AttackTarget ~= prevAttackTarget then
-      local mobId = GetV(V_HOMUNTYPE, AttackTarget)
+      -- local mobId = GetV(V_HOMUNTYPE, AttackTarget)
       prevAttackTarget = AttackTarget
-      boltCounter = MobSettings[mobId].bolts or 0
+      boltCounter = event.target.mobConfig.bolts or 0
     end
 
     if boltCounter ~= 0 and World.mySP >= (20 + 2 * capriceLvl) and SkillDelay <
@@ -48,9 +48,9 @@ end
 function RangedAttackDuringMelee(event, next)
 
   if AttackTarget ~= prevAttackTarget then
-    local mobId = GetV(V_HOMUNTYPE, AttackTarget)
+    -- local mobId = GetV(V_HOMUNTYPE, AttackTarget)
     prevAttackTarget = AttackTarget
-    boltCounter = MobSettings[mobId].bolts or 0
+    boltCounter = event.target.mobConfig.bolts or 0
   end
   if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
     World.mySP >= (20 + 2 * capriceLvl) then

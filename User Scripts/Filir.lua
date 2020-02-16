@@ -1,7 +1,7 @@
 local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
-  'AutoHeel', 'GuardOwner', 'MoonlightSpam'
+  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -22,10 +22,12 @@ Events:on('idle', GuardOwner)
 
 Events:on('follow', FollowOwner)
 
+Events:on('chase', TargetInfo)
 Events:on('chase', ValidateTarget)
 Events:on('chase', MeleeChase)
 Events:on('chase', StuckCheck)
 
+Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
 Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeAttack)

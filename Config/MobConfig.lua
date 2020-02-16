@@ -32,7 +32,7 @@ local default = {
   masterPriority = 10,
   homunPriority = 4,
   assistPriority = 5,
-  melee = true, -- will try to melee target, even while bolting
+  melee = true, -- will try to melee target, even while 
   bolts = -1 -- no limit on vanil bolts per target
 }
 
