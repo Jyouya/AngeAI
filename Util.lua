@@ -50,6 +50,7 @@ do
   Events = setmetatable({}, {
     __index = {
       on = function(self, eventName, fn)
+        if not fn then error('Cannot register nil handler to event ' .. eventName) end
         local newNode = {value = fn}
 
         if not self[eventName] then

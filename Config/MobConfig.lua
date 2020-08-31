@@ -47,6 +47,8 @@ return {
 
   [2191] = ignore, -- seaweed
 
+  [1113] = doNotBolt, -- Drops
+
   -- [1057] = ignore, -- yoyo
   -- [1002] = ignore, -- poring
   -- [1180] = ignore, -- ninetail
