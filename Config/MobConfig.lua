@@ -17,7 +17,7 @@ local ignore = { -- Homun will never attack unless you command it to
   bolts = -1
 }
 
-local doNotBolt = {
+local doNotUseSkills = {
   priority = 1,
   masterPriority = 10,
   homunPriority = 4,
@@ -33,7 +33,7 @@ local default = {
   homunPriority = 4,
   assistPriority = 5,
   melee = true, -- will try to melee target, even while 
-  bolts = -1 -- no limit on vanil bolts per target
+  bolts = -1 -- no limit on caprice/moonlight per target
 }
 
 return {
@@ -46,8 +46,6 @@ return {
   [1590] = passive, -- Summon Plant Geographer
 
   [2191] = ignore, -- seaweed
-
-  [1113] = doNotBolt, -- Drops
 
   -- [1057] = ignore, -- yoyo
   -- [1002] = ignore, -- poring
