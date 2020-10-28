@@ -3,7 +3,7 @@ State = 'LOAD'
 AttackTarget = nil
 ActorBlacklist = {}
 
--- Buff['Buff Name'] returns truthy if the buff is currently active
+-- Buffs['Buff Name'] returns truthy if the buff is currently active
 do
   local buffTable = {}
 

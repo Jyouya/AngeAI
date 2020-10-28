@@ -1,7 +1,7 @@
 local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
-  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo'
+  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo', 'PersistentStore', 'FleetMove', 'OverSpeed'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -9,11 +9,16 @@ dofile('./AI/USER_AI/Components/index.lua')(unpack(modules))
 
 Events:on('stateChange', InitializeStuckTimer)
 
+Events:on('load', ReadPersistentStore)
+
+Events:on('cycleStart', ReadPersistentStore)
 Events:on('cycleStart', CullBlacklist)
 Events:on('cycleStart', ProcessCommand)
 Events:on('cycleStart', CheckLeash)
 Events:on('cycleStart', AutoHeel)
 Events:on('cycleStart', AutoLoggout)
+
+Events:on('cycleEnd', WritePersistentStore)
 
 Events:on('idle', ProcessCommandQueue)
 Events:on('idle', SelectTarget)
@@ -31,6 +36,8 @@ Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
 Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeAttack)
+Events:on('attack', FleetMoveOnAttack)
+Events:on('attack', OverspeedOnAttack)
 Events:on('attack', MoonlightSpam)
 Events:on('attack', MeleeDance)
 

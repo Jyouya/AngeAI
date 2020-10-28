@@ -164,6 +164,8 @@ do
     else
       Events:emit(State, event)
     end
+
+    Events:emit('cycleEnd', event)
   end
 end
 
