@@ -45,6 +45,7 @@ do
   local heel = false
   Events:on('heel', function(event, next)
     heel = true
+    SetState('IDLE')
     next()
   end)
   function HandleFollowCommand()

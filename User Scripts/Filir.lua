@@ -4,6 +4,9 @@ local modules = {
   'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo', 'PersistentStore', 'FleetMove', 'OverSpeed'
 }
 
+Leash = {IDLE = 2, CHASE = 16, ATTACK = 16, FOLLOW = 4, GET_SONG = 13}
+
+
 -- Don't change this line unless you know what you're doing
 dofile('./AI/USER_AI/Components/index.lua')(unpack(modules))
 
