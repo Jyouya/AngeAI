@@ -65,7 +65,7 @@ do
         local newNode = {value = fn, once = true}
 
         if not self[eventName] then
-          self[eventName] = {value = function(next) next() end}
+          self[eventName] = {value = function(event, next) next() end}
         end
         local node = self[eventName]
         while node.next do node = node.next end

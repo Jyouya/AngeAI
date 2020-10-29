@@ -1,22 +1,24 @@
 do
   local prevState = 'LOAD'
   function SetState(newState)
-    prevState = State
-    StateChangeTime = World.tick
-    State = newState
+    -- if prevState ~= newState then
+      prevState = State
+      StateChangeTime = World.tick
+      State = newState
 
-    TraceAI(
-      'State changed from ' .. prevState .. ' to ' .. newState .. ' at ' ..
-        World.tick)
+      TraceAI(
+        'State changed from ' .. prevState .. ' to ' .. newState .. ' at ' ..
+          World.tick)
 
-    local status, res = xpcall(function()
-      Events:emit('stateChange', {newState = newState, prevState = prevState})
-    end, function() TraceAI(debug.traceback) end)
+     local status, res = xpcall(function()
+       Events:emit('stateChange', {newState = newState, prevState = prevState})
+      end, function() TraceAI(debug.traceback) end)
 
-    if not status then
-      TraceAI('Error in \'stateChange\' listeners at ' .. World.tick .. ': ' ..
-                res)
-    end
+      if not status then
+        TraceAI('Error in \'stateChange\' listeners at ' .. World.tick .. ': ' ..
+                  (res or ''))
+      end
+    -- end
   end
 
   local stateStack = T {}

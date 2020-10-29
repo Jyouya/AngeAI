@@ -13,5 +13,6 @@
         "Attack",
         "SkillGround",
         "IsMonster"
-    ]
+    ],
+    "vscode-lua-format.configPath": ".vscode/lua-settings.conf"
 }

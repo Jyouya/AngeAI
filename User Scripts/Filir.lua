@@ -1,11 +1,11 @@
 local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
-  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo', 'PersistentStore', 'FleetMove', 'OverSpeed'
+  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo', 'PersistentStore',
+  'FleetMove', 'OverSpeed'
 }
 
 Leash = {IDLE = 2, CHASE = 16, ATTACK = 16, FOLLOW = 4, GET_SONG = 13}
-
 
 -- Don't change this line unless you know what you're doing
 dofile('./AI/USER_AI/Components/index.lua')(unpack(modules))
@@ -18,7 +18,9 @@ Events:on('cycleStart', ReadPersistentStore)
 Events:on('cycleStart', CullBlacklist)
 Events:on('cycleStart', ProcessCommand)
 Events:on('cycleStart', CheckLeash)
-Events:on('cycleStart', AutoHeel)
+-- ! Only enable one of the AutoHeel modules
+-- Events:on('cycleStart', AutoHeel) -- Goes passive immediately on timeout
+Events:on('cycleStart', AutoHeel2) -- Goes passive when current target dies on timeout
 Events:on('cycleStart', AutoLoggout)
 
 Events:on('cycleEnd', WritePersistentStore)

@@ -1,5 +1,6 @@
 local stuckTimer
 local prevPosition
+local stuckTimeout = 1500
 
 function InitializeStuckTimer(event, next)
   stuckTimer = World.tick + 1500
@@ -23,7 +24,7 @@ function StuckCheck(event, next)
     end
 
   else
-    stuckTimer = World.tick + 1500
+    stuckTimer = World.tick + stuckTimeout
     prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
   end
   next()
@@ -38,7 +39,7 @@ function StuckCheck2(event, next)
     end
 
   else
-    stuckTimer = World.tick + 1500
+    stuckTimer = World.tick + stuckTimeout
     prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
   end
   next()
@@ -59,7 +60,7 @@ function AttackingCheck(event, next)
       end
     end
   else
-    stuckTimer = World.tick + 1500
+    stuckTimer = World.tick + stuckTimeout
   end
 
   next()
