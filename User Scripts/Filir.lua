@@ -39,11 +39,11 @@ Events:on('chase', StuckCheck)
 
 Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
-Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeAttack)
 Events:on('attack', FleetMoveOnAttack)
 Events:on('attack', OverspeedOnAttack)
 Events:on('attack', MoonlightSpam)
+-- Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeDance)
 
 Events:on('moveCmd', MoveTo)

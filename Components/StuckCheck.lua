@@ -1,9 +1,12 @@
-local stuckTimer
+local stuckTimerChase
+local stuckTimerAttack
 local prevPosition
-local stuckTimeout = 1500
+local chaseTimeout = 1200
+local attackTimeout = 5000
 
 function InitializeStuckTimer(event, next)
-  stuckTimer = World.tick + 1500
+  stuckTimerChase = World.tick + 1500
+  stuckTimerAttack = World.tick + 5000
   prevPosition = {x = 0, y = 0}
   next()
 end
@@ -11,8 +14,8 @@ end
 function StuckCheck(event, next)
   if prevPosition.x == World.myPosition.x and prevPosition.y ==
     World.myPosition.y then
-    if stuckTimer < World.tick then
-      TraceAI('I\'m Stuck')
+    if stuckTimerChase < World.tick then
+      TraceAI('I\'m Stuck chasing ' .. tostring(AttackTarget))
       ActorBlacklist[AttackTarget] = World.tick
       local targetId = FindTarget()
 
@@ -24,7 +27,7 @@ function StuckCheck(event, next)
     end
 
   else
-    stuckTimer = World.tick + stuckTimeout
+    stuckTimerChase = World.tick + chaseTimeout
     prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
   end
   next()
@@ -33,13 +36,13 @@ end
 function StuckCheck2(event, next)
   if prevPosition.x == World.myPosition.x and prevPosition.y ==
     World.myPosition.y then
-    if stuckTimer < World.tick then
+    if stuckTimerChase < World.tick then
       TraceAI('I\'m Stuck')
       return ProcessCommandQueue(event, function() end)
     end
 
   else
-    stuckTimer = World.tick + stuckTimeout
+    stuckTimerChase = World.tick + chaseTimeout
     prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
   end
   next()
@@ -47,8 +50,8 @@ end
 
 function AttackingCheck(event, next)
   local myMotion = GetV(V_MOTION, World.myId)
-  if myMotion ~= MOTION_ATTACK then
-    if stuckTimer < World.tick then
+  if myMotion ~= MOTION_ATTACK and not event.usedSkill then
+    if stuckTimerChase < World.tick then
       TraceAI('I can\'t hit my target')
       ActorBlacklist[AttackTarget] = World.tick
       local targetId = FindTarget()
@@ -60,7 +63,7 @@ function AttackingCheck(event, next)
       end
     end
   else
-    stuckTimer = World.tick + stuckTimeout
+    stuckTimerAttack = World.tick + attackTimeout
   end
 
   next()

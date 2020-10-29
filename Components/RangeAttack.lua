@@ -20,6 +20,7 @@ function RangeAttack(event, next)
     World.mySP >= (20 + 2 * capriceLvl) then
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
+    event.usedSkill = true
   end
 
   next()
@@ -39,6 +40,7 @@ function RangeAttackDuringChase(event, next)
       World.tick then
       SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
       SetSkillDelay(caprice[capriceLvl].delay)
+      event.usedSkill = true
     end
   end
 
@@ -56,6 +58,7 @@ function RangedAttackDuringMelee(event, next)
     World.mySP >= (20 + 2 * capriceLvl) then
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
+    event.usedSkill = true
   end
 
   next()

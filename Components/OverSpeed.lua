@@ -19,7 +19,7 @@ function OverspeedOnAttack(event, next)
     SkillObject(World.myId, overspeedLvl, 8011, World.myId)
     event.persistentStore.lastOverspeed = World.tick
     SetSkillDelay(400) -- if your bird is 190 aspd, this can be 200
-    return
+    event.usedSkill = true
   end
 
   next()

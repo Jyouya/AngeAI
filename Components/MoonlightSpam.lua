@@ -2,6 +2,9 @@ local prevAttackTarget
 local boltCounter
 
 function MoonlightSpam(event, next)
+  if event.usedSkill then
+    return next()
+  end
 
   if AttackTarget ~= prevAttackTarget then
     -- local mobId = GetV(V_HOMUNTYPE, AttackTarget)
@@ -13,6 +16,7 @@ function MoonlightSpam(event, next)
 
     SkillObject(World.myId, 5, 8009, AttackTarget)
     SetSkillDelay(400)
+    event.usedSkill = true
   end
 
   next()

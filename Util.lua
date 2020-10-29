@@ -158,7 +158,11 @@ function FindTarget()
       local mob = MobSettings[mobId]
       local priority = mob.priority
 
-      local blacklisted = ActorBlacklist[target]
+      for k, v in pairs(ActorBlacklist) do 
+        TraceAI(k)
+      end
+      local blacklisted = ActorBlacklist[actorId]
+      TraceAI(tostring(actorId) .. ' is ' .. (blacklisted and 'blacklisted' or 'not blacklisted'))
 
       -- ? Should we allow the homun to protect additional targets other than master
 
@@ -204,7 +208,7 @@ end
 -- Remove anything from the blacklist that was added more than 5 seconds ago
 function CullBlacklist(event, next)
 
-  local expired = World.tick - 5000
+  local expired = World.tick - 7500
   for k, v in pairs(ActorBlacklist) do
     if v < expired then ActorBlacklist[k] = nil end
   end

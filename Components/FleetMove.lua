@@ -19,7 +19,7 @@ function FleetMoveOnAttack(event, next)
     SkillObject(World.myId, fleetMoveLvl, 8010, World.myId)
     event.persistentStore.lastFleetMove = World.tick
     SetSkillDelay(400)
-    return
+    event.usedSkill = true
   end
 
   next()

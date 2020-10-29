@@ -14,6 +14,7 @@ function MentalChangeOnChase(event, next)
     SkillObject(World.myId, mentalChangeLvl, 8004, World.myId)
     SetSkillDelay(skill.delay)
     Buffs:add('Mental Change', skill.duration)
+    event.usedSkill = true
   end
 
   next()
@@ -27,6 +28,7 @@ function MentalChangeOnAttack(event, next)
     SkillObject(World.myId, mentalChangeLvl, 8004, World.myId)
     SetSkillDelay(skill.delay)
     Buffs:add('Mental Change', skill.duration)
+    event.usedSkill = true
   end
 
   next()

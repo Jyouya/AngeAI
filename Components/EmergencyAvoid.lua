@@ -17,6 +17,7 @@ function EmergencyAvoidOnChase(event, next)
     SkillObject(World.myId, emergencyAvoidLvl, 8002, World.myId)
     SetSkillDelay(skill.delay)
     Buffs:add('Emergency Avoid', skill.duration)
+    event.usedSkill = true
   end
 
   next()

@@ -4,6 +4,7 @@ function MeleeAttack(event, next)
     Attack(World.myId, AttackTarget)
   else
     SetState('CHASE')
+    return Events:emit('CHASE')
   end
 
   next()
