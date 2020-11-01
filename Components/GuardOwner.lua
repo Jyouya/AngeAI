@@ -25,3 +25,14 @@ function GuardOwner2(event, next)
   next()
 
 end
+
+-- Same as guard 1, but clockwise
+function GuardOwner3(event, next) 
+
+  Move(World.myId, World.ownerPosition.x + relX, World.ownerPosition.y + relY)
+
+  relX, relY = relY, -relX
+
+  next()
+
+end

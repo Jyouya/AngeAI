@@ -50,7 +50,9 @@ do
   Events = setmetatable({}, {
     __index = {
       on = function(self, eventName, fn)
-        if not fn then error('Cannot register nil handler to event ' .. eventName) end
+        if not fn then
+          error('Cannot register nil handler to event ' .. eventName)
+        end
         local newNode = {value = fn}
 
         if not self[eventName] then
@@ -158,21 +160,30 @@ function FindTarget()
       local mob = MobSettings[mobId]
       local priority = mob.priority
 
-      for k, v in pairs(ActorBlacklist) do 
-        TraceAI(k)
-      end
       local blacklisted = ActorBlacklist[actorId]
-      TraceAI(tostring(actorId) .. ' is ' .. (blacklisted and 'blacklisted' or 'not blacklisted'))
+      -- TraceAI(tostring(actorId) .. ' is ' .. (blacklisted and 'blacklisted' or 'not blacklisted'))
 
       -- ? Should we allow the homun to protect additional targets other than master
 
       if target == World.ownerId then
+        -- priority = priority +
+        --              (mob.masterPriority ~= nil and mob.masterPriority or
+        --                MobSettings.default.masterPriority)
         priority = priority +
-                     (mob.masterPriority ~= nil and mob.masterPriority or
-                       MobSettings.default.masterPriority)
+                     (mob.masterPriority or MobSettings.default.masterPriority)
       elseif target == World.myId then
-        priority = priority + (mob.homunPriority ~= nil and mob.homunPriority or
-                     MobSettings.default.homunPriority)
+        priority = priority +
+                     (mob.homunPriority or MobSettings.default.homunPriority)
+      end
+
+      local motion = GetV(V_MOTION, actorId)
+      if motion == MOTION_CASTING then
+        priority = priority +
+                     (mob.castingPriority or MobSettings.default.castingPriority)
+      elseif motion == MOTION_SLEEP then
+        priority = priority +
+                     (mob.sleepingPriority or
+                       MobSettings.default.sleepingPriority)
       end
 
       TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))

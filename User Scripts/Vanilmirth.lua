@@ -23,7 +23,7 @@ Events:on('cycleStart', TraceActorInfo)
 Events:on('idle', ProcessCommandQueue)
 Events:on('idle', SelectTarget)
 Events:on('idle', CheckSong2)
-Events:on('idle', GuardOwner2)
+Events:on('idle', GuardOwner)
 
 Events:on('follow', FollowOwner)
 
@@ -50,10 +50,14 @@ Events:on('GET_SONG', GetSong)
 
 Events:on('heel', function(event, next)
   Events:unregister('idle', SelectTarget)
+  Events:unregister('idle', GuardOwner)
+  Events:on('idle', GuardOwner3)
   next()
 end)
 
 Events:on('release', function(event, next)
   Events:on('idle', SelectTarget)
+  Events:unregister('idle' ,GuardOwner3)
+  Events:on('idle', GuardOwner)
   next()
 end)

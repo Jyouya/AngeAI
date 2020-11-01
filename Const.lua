@@ -122,8 +122,8 @@ MOTION_SLEEP = 10	-- Sleep status (only sleep status is detected? ....)
 MOTION_SPIRAL = 11	-- spiral pierce
 MOTION_TOSS = 12	-- throw stone, sand attack, venom knife, sheild charge (NOT BOOMERANG!), sheild chain, summon flora, potion pitcher, demonstration, acid terror, ?spear boomerang?
 MOTION_COUNTER = 13 	-- Counter-attack
---??
---??
+MOTION_LEFT = 14 -- Don't know what this is
+MOTION_RIGHT = 15 -- Don't know what this is
 MOTION_DANCE = 16	-- dancer dances, duets
 MOTION_SING = 17 	-- bard songs only. no frost joke
 MOTION_SHARPSHOOT = 18	-- sharpshooting
@@ -137,7 +137,7 @@ MOTION_TUMBLE = 25	-- Tumbling / TK Kid Leap Landing
 MOTION_COUNTERK = 26	-- TeaKwon counter kick
 MOTION_FLYK = 27	-- TeaKwon flying kick
 MOTION_BIGTOSS = 28 	-- A heavier toss (slim potions / acid demonstration) 
---??
+MOTION_FEED = 29 -- Unused homunculus eating animation
 MOTION_WHIRLK = 30	-- TeaKwon whirlwind kick
 MOTION_AXEK = 31	-- TeaKwon axe kick
 MOTION_ROUNDK = 32	-- TeaKwon roundhouse kick
@@ -150,6 +150,10 @@ MOTION_GUNTWIN = 38	-- gunslinger shows off his twin guns? flip coin, inc accura
 MOTION_GUNFLIP = 39	-- gunslinger flips out... a coin?
 MOTION_GUNSHOW = 40	-- gunslinger shows the big gun. cracker, gunslinger mine... ?fullbuster?
 MOTION_GUNCAST = 41	-- gunslinger casts a spell
+MOTION_GUNCAST2 = 42 -- another gunslinger motion
+MOTION_MADOSKILL = 43 -- for custom skill animations
+MOTION_MADOSKILL2 = 44 -- more custom skill animations
+MOTION_AB_SPECIAL = 45 -- unknown
 
 NONE_CMD			= 0
 MOVE_CMD			= 1

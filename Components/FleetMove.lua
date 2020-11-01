@@ -10,14 +10,13 @@ local fleetMoveLvl = 5
 local skillInfo = fleetMove[fleetMoveLvl]
 
 function FleetMoveOnAttack(event, next)
-  local lastFleetMove = event.persistentStore.lastFleetMove or 0
-
+  local lastFleetMove = Store.lastFleetMove or 0
   -- Determine if fleet move is inactive, off cooldown, and we have sp
   if lastFleetMove + skillInfo.duration < World.tick and lastFleetMove +
     skillInfo.delay < World.tick and World.mySP > skillInfo.cost then
     if SkillDelay > World.tick then return end
     SkillObject(World.myId, fleetMoveLvl, 8010, World.myId)
-    event.persistentStore.lastFleetMove = World.tick
+    Store.lastFleetMove = World.tick
     SetSkillDelay(400)
     event.usedSkill = true
   end
@@ -30,3 +29,12 @@ function FleetMoveOnAttack(event, next)
   -- record the time fleet move was used
 end
 
+function FleetMoveOnChase(event, next)
+    local targetX, targetY = GetV(V_POSITION, AttackTarget)
+    local euclidDist = GetDistanceSquared2(World.myPosition.x, World.myPosition.y,
+                                         targetX, targetY)
+  -- Don't want to do it during long moves, since the hom can start making those towards invalid targets                                       
+  if euclidDist < 121 then
+    FleetMoveOnAttack(event, next)
+  end
+end

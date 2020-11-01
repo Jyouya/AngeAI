@@ -11,6 +11,8 @@ local function stringify(table)
       key = k
     elseif type(k) == 'number' then
       key = '[' .. tostring(k) .. ']'
+    elseif type(k) == 'boolean' then
+      key = '[' .. (k and 'true' or 'false') .. ']'
     else
       error('LTN Stringify: Unsupported key type')
     end
@@ -20,6 +22,8 @@ local function stringify(table)
       value = tostring(v)
     elseif type(v) == 'table' then
       value = stringify(v)
+    elseif type(v) == 'boolean' then
+      value = v and 'true' or 'false'
     else
       error('LTN Stringify: Unsupported value type')
     end

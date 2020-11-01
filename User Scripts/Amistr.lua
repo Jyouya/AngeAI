@@ -18,7 +18,6 @@ Events:on('cycleStart', AutoLoggout)
 Events:on('idle', ProcessCommandQueue)
 Events:on('idle', SelectTarget)
 Events:on('idle', GuardOwner)
--- Events:on('idle', GuardOwner2) -- Different guard movement, only enable one of these
 
 Events:on('follow', FollowOwner)
 
@@ -40,10 +39,14 @@ Events:on('stay', ProcessCommandQueue)
 
 Events:on('heel', function(event, next)
   Events:unregister('idle', SelectTarget)
+  Events:unregister('idle', GuardOwner)
+  Events:on('idle', GuardOwner3)
   next()
 end)
 
 Events:on('release', function(event, next)
   Events:on('idle', SelectTarget)
+  Events:unregister('idle' ,GuardOwner3)
+  Events:on('idle', GuardOwner)
   next()
 end)

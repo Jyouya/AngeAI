@@ -1,6 +1,12 @@
 function ValidateTarget(event, next)
   if table.contains(World.actors, AttackTarget) then
-    next()
+      TraceAI('Target Motion is: ' .. tostring(GetV(V_MOTION, AttackTarget)))
+      if GetV(V_MOTION, AttackTarget) == MOTION_DEAD then 
+        TraceAI('target is dead')
+        ActorBlacklist[AttackTarget] = World.tick
+      else
+        next()
+      end
   else
     local targetId = FindTarget()
 

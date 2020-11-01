@@ -42,16 +42,27 @@ function HandleAttackObjectCommand(targetId)
 end
 
 do
-  local heel = false
-  Events:on('heel', function(event, next)
-    heel = true
-    SetState('IDLE')
+  Events:on('load', function(event, next)
+    if Store.heel then
+      Events:emit('heel')
+    end
     next()
   end)
+
+  Events:on('heel', function(event, next)
+    SetState('IDLE')
+    Store.heel = true
+    next()
+  end)
+
+  Events:on('release', function(event, next) 
+    Store.heel = false
+    next()
+  end)
+
   function HandleFollowCommand()
-    if heel then
+    if Store.heel then
       Events:emit('release')
-      heel = false
     else
       Events:emit('heel')
     end

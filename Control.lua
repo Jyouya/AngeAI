@@ -155,6 +155,8 @@ do
       end
     })
 
+    ReadPersistentStore()
+
     TraceAI('AI cycle start ' .. World.tick)
     local event = {}
     Events:emit('cycleStart', event)
@@ -168,6 +170,8 @@ do
     end
 
     Events:emit('cycleEnd', event)
+    
+    WritePersistentStore()
   end
 end
 
