@@ -1,7 +1,7 @@
 local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
-  'AutoHeel', 'GuardOwner', 'TargetInfo'
+  'AutoHeel', 'GuardOwner', 'TargetInfo', 'BloodLust', 'Defense', 'Protect'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -12,7 +12,7 @@ Events:on('stateChange', InitializeStuckTimer)
 Events:on('cycleStart', CullBlacklist)
 Events:on('cycleStart', ProcessCommand)
 Events:on('cycleStart', CheckLeash)
-Events:on('cycleStart', AutoHeel)
+Events:on('cycleStart', AutoHeel2)
 Events:on('cycleStart', AutoLoggout)
 
 Events:on('idle', ProcessCommandQueue)
@@ -25,12 +25,16 @@ Events:on('chase', TargetInfo)
 Events:on('chase', ValidateTarget)
 Events:on('chase', MeleeChase)
 Events:on('chase', StuckCheck)
+Events:on('chase', ProtectOwner)
 
 Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
-Events:on('attack', AttackingCheck)
+-- Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeAttack)
+Events:on('attack', BloodLustOnAttack)
+Events:on('attack', DefenseOnAttack)
 Events:on('attack', MeleeDance)
+Events:on('attack', ProtectOwner)
 
 Events:on('moveCmd', MoveTo)
 Events:on('moveCmd', StuckCheck2)

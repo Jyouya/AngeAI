@@ -2,11 +2,11 @@ local stuckTimerChase
 local stuckTimerAttack
 local prevPosition
 local chaseTimeout = 1200
-local attackTimeout = 5000
+local attackTimeout = 3500
 
 function InitializeStuckTimer(event, next)
   stuckTimerChase = World.tick + 1500
-  stuckTimerAttack = World.tick + 5000
+  stuckTimerAttack = World.tick + 3500
   prevPosition = {x = 0, y = 0}
   next()
 end
@@ -51,7 +51,7 @@ end
 function AttackingCheck(event, next)
   local myMotion = GetV(V_MOTION, World.myId)
   if myMotion ~= MOTION_ATTACK and not event.usedSkill then
-    if stuckTimerChase < World.tick then
+    if stuckTimerAttack < World.tick then
       TraceAI('I can\'t hit my target')
       ActorBlacklist[AttackTarget] = World.tick
       local targetId = FindTarget()

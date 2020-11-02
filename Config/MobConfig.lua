@@ -14,7 +14,8 @@ local passive = { -- Homun will not attack unless attacked
   castingPriority = 0,
   melee = true,
   bolts = -1,
-  useOverspeed = true
+  useOverspeed = true,
+  defenseLvl = 5
 }
 
 local ignore = { -- Homun will never attack unless you command it to
@@ -26,7 +27,8 @@ local ignore = { -- Homun will never attack unless you command it to
   castingPriority = 0,
   melee = true,
   bolts = -1,
-  useOverspeed = false
+  useOverspeed = false,
+  defenseLvl = 0
 }
 
 local doNotBolt = {
@@ -38,7 +40,21 @@ local doNotBolt = {
   castingPriority = 1,
   melee = true,
   bolts = 0,
-  useOverspeed = true
+  useOverspeed = true,
+  defenseLvl = 5
+}
+
+local assistOnly = {
+  priority = -1,
+  masterPriority = 0,
+  homunPriority = 0,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 1,
+  melee = true,
+  bolts = -1,
+  useOverspeed = true,
+  defenseLvl = 5
 }
 
 -- Edit this table to change default behavior
@@ -51,7 +67,8 @@ local default = {
   castingPriority = 1, -- the hom will try to interrupt enemies that are casting
   melee = true, -- will try to melee target
   bolts = -1, -- no limit on vanil bolts per target
-  useOverspeed = true -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
+  useOverspeed = true, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
+  defenseLvl = 5, -- Defense lvl for sheep to use
 }
 
 return {
@@ -81,12 +98,13 @@ return {
   [1936] = doNotBolt, -- Yellow Flower
   
   -- Pets
-  [1057] = ignore, -- Yoyo
-  [1002] = ignore, -- Poring
-  [1180] = ignore, -- Ninetail
-  [1031] = ignore, -- Poporing
-  [1776] = ignore, -- Siroma
-  [2501] = ignore, -- Snow Bunny
+  -- It should properly detect pets now, so no need for these
+  -- [1057] = ignore, -- Yoyo
+  -- [1002] = ignore, -- Poring
+  -- [1180] = ignore, -- Ninetail
+  -- [1031] = ignore, -- Poporing
+  -- [1776] = ignore, -- Siroma
+  -- [2501] = ignore, -- Snow Bunny
 
   -- Summons
   [1142] = passive, -- Marine Sphere (Alchemist & Byalan)
@@ -99,5 +117,5 @@ return {
   -- Unkillable Mobs
   [2191] = ignore, -- seaweed
 
-  -- [mobID] = ignore --Mob Name
+  -- [mobID] = ignore -- Mob Name
 }

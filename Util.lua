@@ -149,6 +149,8 @@ end
 function FindTarget()
   local mobs = T {}
   -- local assistTarget = T {}
+  local masterTarget = GetV(V_TARGET, World.ownerId)
+  TraceAI('Owner is attacking ' .. tostring(masterTarget))
 
   for _, actorId in ipairs(World.actors) do
     -- Determine mob Priority
@@ -186,14 +188,15 @@ function FindTarget()
                        MobSettings.default.sleepingPriority)
       end
 
+      if actorId == masterTarget then
+        priority = priority +
+                     (mob.assistPriority or MobSettings.default.assistPriority)
+      end
+
       TraceAI(string.format('Target: %i, Priority: %i', actorId, priority))
 
-      -- TODO: check if master is attacking something, and add assist priority
-      -- ! doesn't work.
-      -- if actorId == World.ownerId then assistTarget:append({target, mobId}) end
-
       if priority > 0 and not blacklisted and actorId > 0 then
-        mobs[#mobs + 1] = {mob.priority, actorId}
+        mobs[#mobs + 1] = {priority, actorId}
       end
     end
   end
@@ -204,7 +207,12 @@ function FindTarget()
   -- end
 
   if #mobs > 0 then
-    local target = mobs:reduce(function(a, b)
+    TraceAI('choosing between ' .. tostring(#mobs) .. ' targets')
+    -- for i, v in ipairs(mobs) do
+    --   TraceAI(tostring(i)..' '..tostring(v))
+    -- end
+    local target = mobs:ireduce(function(a, b)
+      -- TraceAI('val1 '..tostring(a[1]) .. ' val2 '..tostring(b[1]))
       if a[1] == b[1] then -- targets are same priority, return the closest target
         return GetDistanceSquared(World.myId, a[2]) <
                  GetDistanceSquared(World.myId, b[2]) and a or b

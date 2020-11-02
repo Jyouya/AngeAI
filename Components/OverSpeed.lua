@@ -1,9 +1,9 @@
 local overspeed = {
-  [1] = {duration = 60000, delay = 60000, cost = 30},
-  [2] = {duration = 55000, delay = 70000, cost = 40},
-  [3] = {duration = 50000, delay = 80000, cost = 50},
-  [4] = {duration = 45000, delay = 90000, cost = 60},
-  [5] = {duration = 40000, delay = 120000, cost = 70}
+  [1] = {duration = 60000, delay = 55000, cost = 30},
+  [2] = {duration = 55000, delay = 60000, cost = 40},
+  [3] = {duration = 50000, delay = 65000, cost = 50},
+  [4] = {duration = 45000, delay = 70000, cost = 60},
+  [5] = {duration = 40000, delay = 75000, cost = 70}
 }
 
 local overspeedLvl = 5
@@ -31,6 +31,8 @@ function OverspeedOnChase(event, next)
                                          targetX, targetY)
   -- Don't want to do it during long moves, since the hom can start making those towards invalid targets                                       
   if euclidDist < 121 then
-    OverspeedOnAttack(event, next)
+    OverspeedOnAttack(event, function() 
+        InitializeStuckTimer(event, next)
+    end)
   end
 end

@@ -35,6 +35,8 @@ function FleetMoveOnChase(event, next)
                                          targetX, targetY)
   -- Don't want to do it during long moves, since the hom can start making those towards invalid targets                                       
   if euclidDist < 121 then
-    FleetMoveOnAttack(event, next)
+    FleetMoveOnAttack(event, function() 
+        InitializeStuckTimer(event, next)
+    end)
   end
 end

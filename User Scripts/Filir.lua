@@ -2,7 +2,7 @@ local modules = {
   'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
   'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo',
-  'FleetMove', 'OverSpeed'
+  'FleetMove', 'OverSpeed', 'Protect'
 }
 
 Leash = {IDLE = 4, CHASE = 16, ATTACK = 16, FOLLOW = 4, GET_SONG = 13}
@@ -32,6 +32,7 @@ Events:on('chase', MeleeChase)
 Events:on('chase', StuckCheck)
 Events:on('chase', FleetMoveOnChase)
 Events:on('chase', OverspeedOnChase)
+Events:on('chase', ProtectOwner)
 
 Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
@@ -41,6 +42,7 @@ Events:on('attack', OverspeedOnAttack)
 Events:on('attack', MoonlightSpam)
 -- Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeDance)
+Events:on('attack', ProtectOwner)
 
 Events:on('moveCmd', MoveTo)
 Events:on('moveCmd', StuckCheck2)

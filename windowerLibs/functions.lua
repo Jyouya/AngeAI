@@ -453,6 +453,21 @@ function table.reduce(t, fn, init)
     return acc
 end
 
+function table.ireduce(t, fn, init)
+    local acc = init
+    for _, value in ipairs(t) do
+        TraceAI(tostring(_)) -- I swear it stops working if I remove this
+        if init then
+            acc = fn(acc, value)
+        else
+            acc = value
+            init = true
+        end
+    end
+
+    return acc
+end
+
 -- Return true if any element of t satisfies the condition fn.
 function table.any(t, fn)
     for value in table.it(t) do
