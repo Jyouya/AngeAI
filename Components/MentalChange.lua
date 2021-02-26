@@ -1,7 +1,7 @@
 local mentalChange = {
   [1] = {duration = 60000, delay = 3000, cost = 100},
   [2] = {duration = 180000, delay = 3000, cost = 100},
-  [3] = {duration = 300000, delay = 3000, cost = 100}
+  [3] = {duration = 300000, delay = 3500, cost = 100}
 }
 
 local mentalChangeLvl = 3
@@ -37,6 +37,7 @@ end
 local newSession = true
 
 function MentalChange(event, next)
+  if World.mySPP < .1 then Store.mentalChangeEnd = 0 end
   local mentalChangeEnd = Store.mentalChangeEnd or 0
   if SkillDelay < World.tick and World.mySP >= skill.cost and
     (newSession or mentalChangeEnd < World.tick + 1000) then
@@ -49,3 +50,9 @@ function MentalChange(event, next)
 
   next()
 end
+
+Events:on('reset', function(event, next)
+  SetSkillDelay(1000)
+  Store.mentalChangeEnd = 0
+  next()
+end)

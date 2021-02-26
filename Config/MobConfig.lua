@@ -44,6 +44,32 @@ local doNotBolt = {
   defenseLvl = 5
 }
 
+local boltOnce = {
+  priority = 1,
+  masterPriority = 10,
+  homunPriority = 4,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 1,
+  melee = true,
+  bolts = 1,
+  useOverspeed = true,
+  defenseLvl = 5
+}
+
+local boltTwice = {
+  priority = 1,
+  masterPriority = 10,
+  homunPriority = 4,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 1,
+  melee = true,
+  bolts = 2,
+  useOverspeed = false,
+  defenseLvl = 5
+}
+
 local assistOnly = {
   priority = -1,
   masterPriority = 0,
@@ -57,6 +83,19 @@ local assistOnly = {
   defenseLvl = 5
 }
 
+local highPriority = {
+  priority = 2,
+  masterPriority = 10,
+  homunPriority = 4,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 1, 
+  melee = true, 
+  bolts = -1, 
+  useOverspeed = false, 
+  defenseLvl = 5, 
+}
+
 -- Edit this table to change default behavior
 local default = {
   priority = 1,
@@ -67,7 +106,7 @@ local default = {
   castingPriority = 1, -- the hom will try to interrupt enemies that are casting
   melee = true, -- will try to melee target
   bolts = -1, -- no limit on vanil bolts per target
-  useOverspeed = true, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
+  useOverspeed = false, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
   defenseLvl = 5, -- Defense lvl for sheep to use
 }
 
@@ -102,7 +141,7 @@ return {
   -- [1057] = ignore, -- Yoyo
   -- [1002] = ignore, -- Poring
   -- [1180] = ignore, -- Ninetail
-  -- [1031] = ignore, -- Poporing
+  [1031] = ignore, -- Poporing
   -- [1776] = ignore, -- Siroma
   -- [2501] = ignore, -- Snow Bunny
 
@@ -117,5 +156,28 @@ return {
   -- Unkillable Mobs
   [2191] = ignore, -- seaweed
 
-  -- [mobID] = ignore -- Mob Name
+  -- [mobID] = ignore, -- Mob Name
+
+  -- Moscovia
+  [1880] = passive, -- Wood Goblin
+  [1881] = boltOnce, -- Les
+  [1139] = passive, -- Mantis
+
+  -- Neko Island
+  [1586] = passive, -- Leaf cat
+  [2502] = passive, -- Autumn Leaf cat
+  [1261] = passive, -- Wild Rose
+  [2590] = boltOnce, -- Nekoring
+
+  -- Kiel Field
+  [1368] = ignore, -- Geographer
+  [1369] = boltTwice, -- Grand Peco
+
+  -- Clocktower B4
+  -- [1102] = boltOnce, -- Bathory
+  [1179] = passive, -- Whisper
+  [1131] = passive, -- Joker
+
+  -- DG
+  [1921] = highPriority
 }

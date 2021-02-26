@@ -1,8 +1,8 @@
 local modules = {
-  'AutoLoggout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
+  'AutoLogout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'CheckLeash', 'MeleeAttack', 'ValidateTarget', 'MeleeDance', 'Command',
-  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo',
-  'FleetMove', 'OverSpeed', 'Protect'
+  'AutoHeel', 'GuardOwner', 'MoonlightSpam', 'TargetInfo', 'FleetMove',
+  'OverSpeed', 'Protect'
 }
 
 Leash = {IDLE = 4, CHASE = 16, ATTACK = 16, FOLLOW = 4, GET_SONG = 13}
@@ -10,26 +10,36 @@ Leash = {IDLE = 4, CHASE = 16, ATTACK = 16, FOLLOW = 4, GET_SONG = 13}
 -- Don't change this line unless you know what you're doing
 dofile('./AI/USER_AI/Components/index.lua')(unpack(modules))
 
+-- Rotation matrices
+local clockwise = {{0, 1}, {-1, 0}}
+local counterclockwise = {{0, -1}, {1, 0}}
+
+-- Guard presets.  Takes a transform and minimum HPP (so hom will stand still to recover hp if you want)
+local guardClockwise = GuardOwner(clockwise, 0)
+local guardCounterClockwise = GuardOwner(counterclockwise, 0)
+
 Events:on('stateChange', InitializeStuckTimer)
 
 Events:on('cycleStart', CullBlacklist)
 Events:on('cycleStart', ProcessCommand)
 Events:on('cycleStart', CheckLeash)
--- ! Only enable one of the AutoHeel modules
--- Events:on('cycleStart', AutoHeel) -- Goes passive immediately on timeout
-Events:on('cycleStart', AutoHeel2) -- Goes passive when current target dies on timeout
-Events:on('cycleStart', AutoLoggout)
+-- first arg is how long the chem needs to be afk in seconds,
+-- second arg is whether the hom should finish the current target first
+Events:on('cycleStart', AutoHeel(180, true))
+-- how many minutes the chem needs to afk before the client closes
+Events:on('cycleStart', AutoLogout(70))
 
 Events:on('idle', ProcessCommandQueue)
 Events:on('idle', SelectTarget)
-Events:on('idle', GuardOwner)
+Events:on('idle', guardCounterClockwise)
 
 Events:on('follow', FollowOwner)
 
 Events:on('chase', TargetInfo)
 Events:on('chase', ValidateTarget)
 Events:on('chase', MeleeChase)
-Events:on('chase', StuckCheck)
+-- How many seconds the hom needs to be stuck to determine that target is unreachable
+Events:on('chase', StuckCheck(1.2))
 Events:on('chase', FleetMoveOnChase)
 Events:on('chase', OverspeedOnChase)
 Events:on('chase', ProtectOwner)
@@ -51,14 +61,14 @@ Events:on('stay', ProcessCommandQueue)
 
 Events:on('heel', function(event, next)
   Events:unregister('idle', SelectTarget)
-  Events:unregister('idle', GuardOwner)
-  Events:on('idle', GuardOwner3)
+  Events:unregister('idle', guardCounterClockwise)
+  Events:on('idle', guardClockwise)
   next()
 end)
 
 Events:on('release', function(event, next)
   Events:on('idle', SelectTarget)
-  Events:unregister('idle' ,GuardOwner3)
-  Events:on('idle', GuardOwner)
+  Events:unregister('idle', guardClockwise)
+  Events:on('idle', guardCounterClockwise)
   next()
 end)

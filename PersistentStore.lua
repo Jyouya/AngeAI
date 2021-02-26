@@ -19,6 +19,8 @@ function ReadPersistentStore()
   })
 end
 
+ReadPersistentStore() -- Initialize Store
+
 function WritePersistentStore()
   if changed then
     changed = false

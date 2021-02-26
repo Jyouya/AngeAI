@@ -56,6 +56,7 @@ local homunTypeNames = {
   [VANILMIRTH_H] = 'Vanilmirth',
   [VANILMIRTH_H2] = 'Vanilmirth'
 }
+
 local onLoad
 do
   local protoMobSettings
@@ -68,6 +69,11 @@ do
     end)
 
     if not status then TraceAI('Failed to load user script file: ' .. err) end
+
+    if World.tick - (Store.lastActiveTick or 0) > 300 then
+      TraceAI('debug reset 1')
+      Events:emit('reset', {})
+    end
 
     -- Load global config and homun type specific mob config
     -- Use prototypical delegation so it checks momSpecific -> global -> default for mob settings
@@ -150,7 +156,9 @@ do
 
     World = setmetatable({myId = myId}, {
       __index = function(t, k)
-        if not rawget(t, k) then t[k] = worldLookup[k](t) end
+        -- ? Why does this rawget()?  __index is only used if the table doesn't contain the key
+        -- if not rawget(t, k) then t[k] = worldLookup[k](t) end
+        t[k] = worldLookup[k](t)
         return t[k]
       end
     })
@@ -170,7 +178,8 @@ do
     end
 
     Events:emit('cycleEnd', event)
-    
+
+    Store.lastActiveTick = World.tick
     WritePersistentStore()
   end
 end

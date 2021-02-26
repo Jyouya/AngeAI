@@ -26,10 +26,39 @@ end
 function LongMove(x, y)
   local euclidDist = GetDistanceSquared2(World.myPosition.x, World.myPosition.y,
                                          x, y)
-  if euclidDist >= 121 then
-    x = math.floor((x + World.myPosition.x) / 2)
-    y = math.floor((y + World.myPosition.y) / 2)
+
+  local a2 = euclidDist -- distance from hom to taret squared
+  local b2 = GetDistanceSquared(World.myId, World.ownerId) -- distance from hom to onwer squared
+  local c2 = GetDistanceSquared2(World.ownerPosition.x, World.ownerPosition.y,
+                                 x, y) -- distance from owner to target
+
+  -- local b = math.sqrt(b2)
+  -- local c = math.sqrt(c2)
+
+  -- local cosA = (b2 + c2 - a2) / (2 * b * c)
+  -- local A = math.acos(cosA) -- Angle of hom-owner-target
+
+  -- if a2 >= 400 then
+
+  --   if A > math.pi / 2 and b2 >= 25 then
+  --     x, y = World.ownerPosition.x, World.ownerPosition.y
+  --   else
+  --     x = math.floor((x + World.myPosition.x) / 2)
+  --     y = math.floor((y + World.myPosition.y) / 2)
+  --   end
+
+  -- end
+
+  if a2 >= 250 and c2 < a2 and b2 > 4 then
+    -- x, y = World.ownerPosition.x, World.ownerPosition.y
+    return MoveToOwner(World.myId)
   end
+
+  if euclidDist >= 500 then
+    -- x = math.floor((x + World.myPosition.x) / 2)
+    -- y = math.floor((y + World.myPosition.y) / 2)
+  end
+
   Move(World.myId, x, y)
 end
 
@@ -99,9 +128,10 @@ end
 
 function SetSkillDelay(delay)
   SkillDelay = World.tick + delay
-  local file = io.open('./AI/USER_AI/skillDelay.lua', 'w')
-  file:write('return ' .. SkillDelay)
-  file:close()
+  Store.skillDelay = SkillDelay
+  -- local file = io.open('./AI/USER_AI/skillDelay.lua', 'w')
+  -- file:write('return ' .. SkillDelay)
+  -- file:close()
 end
 
 do
@@ -227,7 +257,7 @@ end
 -- Remove anything from the blacklist that was added more than 5 seconds ago
 function CullBlacklist(event, next)
 
-  local expired = World.tick - 7500
+  local expired = World.tick - 5000
   for k, v in pairs(ActorBlacklist) do
     if v < expired then ActorBlacklist[k] = nil end
   end

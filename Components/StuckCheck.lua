@@ -11,26 +11,51 @@ function InitializeStuckTimer(event, next)
   next()
 end
 
-function StuckCheck(event, next)
-  if prevPosition.x == World.myPosition.x and prevPosition.y ==
-    World.myPosition.y then
-    if stuckTimerChase < World.tick then
-      TraceAI('I\'m Stuck chasing ' .. tostring(AttackTarget))
-      ActorBlacklist[AttackTarget] = World.tick
-      local targetId = FindTarget()
+-- function StuckCheck(event, next)
+--   if prevPosition.x == World.myPosition.x and prevPosition.y ==
+--     World.myPosition.y then
+--     if stuckTimerChase < World.tick then
+--       TraceAI('I\'m Stuck chasing ' .. tostring(AttackTarget))
+--       ActorBlacklist[AttackTarget] = World.tick
+--       local targetId = FindTarget()
 
-      if targetId then
-        return BeginAttack(targetId)
-      else
-        return SetState('FOLLOW')
+--       if targetId then
+--         return BeginAttack(targetId)
+--       else
+--         return SetState('FOLLOW')
+--       end
+--     end
+
+--   else
+--     stuckTimerChase = World.tick + chaseTimeout
+--     prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
+--   end
+--   next()
+-- end
+
+function StuckCheck(seconds)
+  local timeout = seconds * 1000 
+  return function (event, next)
+    if prevPosition.x == World.myPosition.x and prevPosition.y ==
+      World.myPosition.y then
+      if stuckTimerChase < World.tick then
+        TraceAI('I\'m Stuck chasing ' .. tostring(AttackTarget))
+        ActorBlacklist[AttackTarget] = World.tick
+        local targetId = FindTarget()
+  
+        if targetId then
+          return BeginAttack(targetId)
+        else
+          return SetState('FOLLOW')
+        end
       end
+  
+    else
+      stuckTimerChase = World.tick + timeout
+      prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
     end
-
-  else
-    stuckTimerChase = World.tick + chaseTimeout
-    prevPosition = {x = World.myPosition.x, y = World.myPosition.y}
+    next()
   end
-  next()
 end
 
 function StuckCheck2(event, next)

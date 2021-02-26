@@ -1,16 +1,16 @@
 local relX, relY = 1, 0
 
 -- Homun will move in epicycles around owner
-function GuardOwner(event, next)
+-- function GuardOwner(event, next)
 
-  Move(World.myId, World.ownerPosition.x + relX, World.ownerPosition.y + relY)
+--   Move(World.myId, World.ownerPosition.x + relX, World.ownerPosition.y + relY)
 
-  -- Quick rotation matrix
-  relX, relY = -relY, relX
+--   -- Quick rotation matrix
+--   relX, relY = -relY, relX
 
-  next()
+--   next()
 
-end
+-- end
 
 local crossMove = {{0, 1}, {-1, 0}, {1, 0}, {0, -1}, i = 1}
 
@@ -27,7 +27,7 @@ function GuardOwner2(event, next)
 end
 
 -- Same as guard 1, but clockwise
-function GuardOwner3(event, next) 
+function GuardOwner3(event, next)
 
   Move(World.myId, World.ownerPosition.x + relX, World.ownerPosition.y + relY)
 
@@ -35,4 +35,17 @@ function GuardOwner3(event, next)
 
   next()
 
+end
+
+function GuardOwner(transform, minHPP)
+  return function(event, next)
+    if World.myHPP >= minHPP then
+      Move(World.myId, World.ownerPosition.x + relX,
+           World.ownerPosition.y + relY)
+      relX, relY = transform[1][1] * relX + transform[1][2] * relY,
+                   transform[2][1] * relX + transform[2][2] * relY
+
+      next()
+    end
+  end
 end

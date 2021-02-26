@@ -25,9 +25,10 @@ do
 
 end
 
-if not pcall(function() SkillDelay = dofile('./AI/USER_AI/skillDelay.lua') end) then
-  SkillDelay = GetTick() - 1
-end
+-- if not pcall(function() SkillDelay = dofile('./AI/USER_AI/skillDelay.lua') end) then
+--   SkillDelay = GetTick() - 1
+-- end
+SkillDelay = Store.skillDelay or GetTick() - 1
 
 World = setmetatable({}, {
   __index = function()
