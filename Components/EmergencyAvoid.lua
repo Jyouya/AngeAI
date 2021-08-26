@@ -46,7 +46,7 @@ function EmergencyAvoid(level, predicate)
   return function(event, next)
       local mentalChangeEnd = Store.mentalChangeEnd or 0
       if (heel or SkillDelay < World.tick and mentalChangeEnd > World.tick + skill.delay and
-        World.mySP >= skill.cost) and predicate() then
+        World.mySP > skill.cost) and predicate() then
 
         SkillObject(World.myId, level, 8002, World.myId)
         SetSkillDelay(skill.delay)

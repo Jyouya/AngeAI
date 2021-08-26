@@ -39,7 +39,7 @@ local newSession = true
 function MentalChange(event, next)
   if World.mySPP < .1 then Store.mentalChangeEnd = 0 end
   local mentalChangeEnd = Store.mentalChangeEnd or 0
-  if SkillDelay < World.tick and World.mySP >= skill.cost and
+  if SkillDelay < World.tick and World.mySP > skill.cost and
     (newSession or mentalChangeEnd < World.tick + 1000) then
     newSession = false
     SkillObject(World.myId, mentalChangeLvl, 8004, World.myId)

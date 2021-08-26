@@ -17,7 +17,7 @@ function RangeAttack(event, next)
     boltCounter = event.target.mobConfig.bolts or 0
   end
   if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
-    World.mySP >= (20 + 2 * capriceLvl) then
+    World.mySP > (20 + 2 * capriceLvl) then
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
     event.usedSkill = true
@@ -36,7 +36,7 @@ function RangeAttackDuringChase(event, next)
       boltCounter = event.target.mobConfig.bolts or 0
     end
 
-    if boltCounter ~= 0 and World.mySP >= (20 + 2 * capriceLvl) and SkillDelay <
+    if boltCounter ~= 0 and World.mySP > (20 + 2 * capriceLvl) and SkillDelay <
       World.tick then
       SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
       SetSkillDelay(caprice[capriceLvl].delay)
@@ -55,7 +55,7 @@ function RangedAttackDuringMelee(event, next)
     boltCounter = event.target.mobConfig.bolts or 0
   end
   if boltCounter ~= 0 and (SkillDelay < World.tick or boltCounter < 0) and
-    World.mySP >= (20 + 2 * capriceLvl) then
+    World.mySP > (20 + 2 * capriceLvl) then
     SkillObject(World.myId, capriceLvl, 8013, AttackTarget)
     SetSkillDelay(caprice[capriceLvl].delay)
     event.usedSkill = true
