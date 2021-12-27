@@ -1,7 +1,7 @@
 local mentalChange = {
-  [1] = {duration = 60000, delay = 3000, cost = 100},
-  [2] = {duration = 180000, delay = 3000, cost = 100},
-  [3] = {duration = 300000, delay = 3500, cost = 100}
+  [1] = {duration = 60000, delay = 25500, cost = 100},
+  [2] = {duration = 180000, delay = 25500, cost = 100},
+  [3] = {duration = 300000, delay = 25500, cost = 100}
 }
 
 local mentalChangeLvl = 3
@@ -50,6 +50,13 @@ function MentalChange(event, next)
 
   next()
 end
+
+Events:on('cycleStart', function(event, next)
+  if World.mySP < 200 then
+    Store.mentalChangeEnd = 0
+  end
+  next()
+end)
 
 Events:on('reset', function(event, next)
   SetSkillDelay(1000)
