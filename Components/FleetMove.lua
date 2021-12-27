@@ -17,6 +17,7 @@ function FleetMoveOnAttack(event, next)
     if SkillDelay > World.tick then return end
     SkillObject(World.myId, fleetMoveLvl, 8010, World.myId)
     Store.lastFleetMove = World.tick
+    Store.fleetMoveEnd = World.tick + skillInfo.duration
     SetSkillDelay(400)
     event.usedSkill = true
   end

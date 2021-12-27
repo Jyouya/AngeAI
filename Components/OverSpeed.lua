@@ -18,6 +18,7 @@ function OverspeedOnAttack(event, next)
     if SkillDelay > World.tick then return end
     SkillObject(World.myId, overspeedLvl, 8011, World.myId)
     Store.lastOverspeed = World.tick
+    Store.overspeedEnd = World.tick + skillInfo.duration
     SetSkillDelay(400)
     event.usedSkill = true
   end

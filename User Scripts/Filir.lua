@@ -49,7 +49,9 @@ Events:on('attack', ValidateTarget)
 Events:on('attack', MeleeAttack)
 Events:on('attack', FleetMoveOnAttack)
 Events:on('attack', OverspeedOnAttack)
-Events:on('attack', MoonlightSpam)
+-- First arg forces bird to only use moonlight if fleet move is active
+-- Second arg forces bird to only use moonlight if overspeed is active
+Events:on('attack', Moonlight(true, true))
 -- Events:on('attack', AttackingCheck)
 Events:on('attack', MeleeDance)
 Events:on('attack', ProtectOwner)
