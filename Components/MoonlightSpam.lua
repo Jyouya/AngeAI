@@ -26,7 +26,7 @@ function Moonlight(fleetMove, overspeed)
     local fleetMoveActive = (Store.fleetMoveEnd or 0) > World.tick
     local overspeedActive = (Store.overspeedEnd or 0) > World.tick
 
-    if (fleetMove or fleetMoveActive) and (overspeed or overspeedActive) then
+    if (not fleetMove or fleetMoveActive) and (not overspeed or overspeedActive) then
       MoonlightSpam(event, next)
     else
       next()

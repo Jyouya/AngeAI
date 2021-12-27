@@ -106,7 +106,7 @@ local default = {
   castingPriority = 1, -- the hom will try to interrupt enemies that are casting
   melee = true, -- will try to melee target
   bolts = -1, -- no limit on vanil bolts per target
-  useOverspeed = false, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
+  useOverspeed = true, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
   defenseLvl = 5, -- Defense lvl for sheep to use
 }
 
