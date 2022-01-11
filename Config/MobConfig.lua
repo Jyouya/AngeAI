@@ -84,7 +84,7 @@ local assistOnly = {
 }
 
 local highPriority = {
-  priority = 2,
+  priority = 5,
   masterPriority = 10,
   homunPriority = 4,
   assistPriority = 5,
@@ -94,6 +94,60 @@ local highPriority = {
   bolts = -1, 
   useOverspeed = false, 
   defenseLvl = 5, 
+}
+
+local healer = { -- for mobs that cast heal on the alche
+  priority = 0,
+  masterPriority = 0,
+  homPriority = 4,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 0,
+  melee = true,
+  bolts = -1,
+  useOverspeed = false,
+  defenseLvl = 5
+}
+
+local snowHarpy = {
+  priority = 2,
+  masterPriority = 0,
+  homPriority = 0,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 0,
+  melee = true,
+  bolts = -1,
+  useOverspeed = true,
+  defenseLvl = 5
+}
+
+local avoid = { -- Homun will try to avoid going near target
+  priority = 0,
+  masterPriority = 0,
+  homunPriority = 0,
+  assistPriority = 0,
+  sleepingPriority = 0,
+  castingPriority = 0,
+  melee = true,
+  bolts = -1,
+  useOverspeed = false,
+  defenseLvl = 0,
+  avoidPriority = -10
+}
+
+local avoidGroups = { -- Homun will target this mob, but deprioritize large groups of this target
+  priority = 1,
+  masterPriority = 10,
+  homunPriority = 4,
+  assistPriority = 5,
+  sleepingPriority = -1,
+  castingPriority = 1,
+  melee = true,
+  bolts = -1,
+  useOverspeed = true,
+  defenseLvl = 5,
+  avoidPriority = -1/4
 }
 
 -- Edit this table to change default behavior
@@ -108,27 +162,29 @@ local default = {
   bolts = -1, -- no limit on vanil bolts per target
   useOverspeed = true, -- filir will use overspeed on all targets.  Good filirs do not need it on most targets, so consider setting to false if you have a high level bird
   defenseLvl = 5, -- Defense lvl for sheep to use
+  avoidRadius = 8,
+  avoidPriority = 0, -- Added to mobs near the target.  Used to prevent targetting mobs near the target
 }
 
 return {
   default = default, -- ! DO NOT EDIT THIS LINE
-  [1002] = doNotBolt, -- Poring
-  [1004] = doNotBolt, -- Hornet
-  [1005] = doNotBolt, -- Familiar
-  [1007] = doNotBolt, -- Fabre
-  [1008] = doNotBolt, -- Pupa
-  [1009] = doNotBolt, -- Condor
-  [1010] = doNotBolt, -- Willow
-  [1011] = doNotBolt, -- Chonchon
-  [1012] = doNotBolt, -- Roda Frog
-  [1063] = doNotBolt, -- Lunatic
-  [1113] = doNotBolt, -- Drops
+  -- [1002] = doNotBolt, -- Poring
+  -- [1004] = doNotBolt, -- Hornet
+  -- [1005] = doNotBolt, -- Familiar
+  -- [1007] = doNotBolt, -- Fabre
+  -- [1008] = doNotBolt, -- Pupa
+  -- [1009] = doNotBolt, -- Condor
+  -- [1010] = doNotBolt, -- Willow
+  -- [1011] = doNotBolt, -- Chonchon
+  -- [1012] = doNotBolt, -- Roda Frog
+  -- [1063] = doNotBolt, -- Lunatic
+  -- [1113] = doNotBolt, -- Drops
   
   [1078] = doNotBolt, -- Red Plant
   [1079] = doNotBolt, -- Blue Plant
   [1080] = doNotBolt, -- Green Plant
-  [1081] = doNotBolt, -- Yellow Plant
-  [1082] = doNotBolt, -- White Plant
+  [1081] = ignore, -- Yellow Plant
+  [1082] = ignore, -- White Plant
   [1083] = doNotBolt, -- Shining Plant
   [1084] = doNotBolt, -- Black Mushroom
   [1085] = doNotBolt, -- Red Mushroom
@@ -162,6 +218,7 @@ return {
   [1880] = passive, -- Wood Goblin
   [1881] = boltOnce, -- Les
   [1139] = passive, -- Mantis
+  [1884] = highPriority, -- Mavka
 
   -- Neko Island
   [1586] = passive, -- Leaf cat
@@ -179,5 +236,25 @@ return {
   [1131] = passive, -- Joker
 
   -- DG
-  [1921] = highPriority
+  [1921] = highPriority, -- ghost
+
+  -- Rachel Sanc
+  [1769] = passive, -- Agav
+  [1770] = highPriority, -- Echio
+
+  -- Tina cave
+  [1309] = highPriority, -- Gajomart
+  [2154] = passive, -- Banaspaty
+
+  -- Gonryun Dungeon
+  [1408] = highPriority, -- Bloody Butterfly
+
+  -- Lutia
+  [3929] = healer, -- Ijsbal
+  [3930] = snowHarpy, -- Snow Harpy -- not a healer, but want to ignore the lex cast
+
+  -- Fairy Dungeon
+  [1932] = ignore, -- Gardken Keeper
+  [1933] = highPriority, -- Garden Watcher
+
 }

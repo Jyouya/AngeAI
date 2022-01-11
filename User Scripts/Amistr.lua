@@ -23,7 +23,7 @@ Events:on('cycleStart', CheckLeash)
 
 -- first arg is how long the chem needs to be afk in seconds,
 -- second arg is whether the hom should finish the current target first
-Events:on('cycleStart', AutoHeel(60, true))
+Events:on('cycleStart', AutoHeel(120, true))
 -- how many minutes the chem needs to afk before the client closes
 Events:on('cycleStart', AutoLogout(70))
 

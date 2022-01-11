@@ -37,7 +37,7 @@ Events:on('idle', CheckSong2)
 Events:on('idle', guardCounterClockwise)
 Events:on('idle', ChaoticBenediction(5, .7, .7)) -- heal if both hom and master are below 70%
 Events:on('idle', ChaoticBenediction(3, 0.6, 1)) -- Always heal if master is below 60%
-Events:on('idle', ChaoticBenediction(4, 1, 0.25)) -- always heal of hom is below 25%
+Events:on('idle', ChaoticBenediction(4, 1, 0.5)) -- always heal of hom is below 50%
 
 Events:on('follow', FollowOwner)
 
