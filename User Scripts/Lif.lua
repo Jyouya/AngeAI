@@ -2,7 +2,7 @@ local modules = {
   'AutoLogout', 'SelectTarget', 'FollowOwner', 'MeleeChase', 'StuckCheck',
   'MentalChange', 'EmergencyAvoid', 'CheckLeash', 'MeleeAttack',
   'ValidateTarget', 'MeleeDance', 'Command', 'AutoHeel', 'GuardOwner',
-  'TargetInfo', 'Protect'
+  'TargetInfo', 'Protect', 'Avoid'
 }
 
 -- Don't change this line unless you know what you're doing
@@ -42,6 +42,7 @@ Events:on('chase', StuckCheck(1.5)) -- How many seconds the hom needs to be stuc
 Events:on('chase', MentalChange)
 Events:on('chase', EmergencyAvoid(5, function() return World.myHPP >= .25 end))
 Events:on('chase', ProtectOwner)
+-- Events:on('chase', Avoid)
 
 Events:on('attack', TargetInfo)
 Events:on('attack', ValidateTarget)
@@ -51,6 +52,7 @@ Events:on('attack', EmergencyAvoid(5, function() return World.myHPP >= .25 end))
 Events:on('attack', MeleeAttack)
 Events:on('attack', MeleeDance)
 Events:on('attack', ProtectOwner)
+-- Events:on('attack', Avoid)
 
 Events:on('moveCmd', MoveTo)
 Events:on('moveCmd', StuckCheck2)

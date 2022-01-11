@@ -225,16 +225,15 @@ function FindTarget()
 
       for _, id in ipairs(World.actors) do
         if id ~= actorId then
-          local targetX, targetY = GetV(V_POSITION, actorId)
-          local target2X, target2Y = GetV(V_POSITION, id)
           local mobId2 = GetV(V_HOMUNTYPE, id)
           local mob2 = MobSettings[mobId2]
           local avoidRadius = mob2.avoidRadius or
                                 MobSettings.default.avoidRadius
           local avoidPriority = mob2.avoidPriority or
                                   MobSettings.default.avoidPriority
-          if (targetX - target2X) ^ 2 + (targetY - target2Y) ^ 2 > avoidRadius ^
-            2 then priority = priority + avoidPriority end
+          if GetDistanceSquared(actorId, id) < avoidRadius ^ 2 then
+            priority = priority + avoidPriority
+          end
         end
       end
 
