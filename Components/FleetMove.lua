@@ -1,8 +1,8 @@
 local fleetMove = {
-  [1] = {duration = 60000, delay = 75000, cost = 30},
-  [2] = {duration = 55000, delay = 75000, cost = 40},
-  [3] = {duration = 50000, delay = 75000, cost = 50},
-  [4] = {duration = 45000, delay = 75000, cost = 60},
+  [1] = {duration = 60000, delay = 55000, cost = 30},
+  [2] = {duration = 55000, delay = 60000, cost = 40},
+  [3] = {duration = 50000, delay = 65000, cost = 50},
+  [4] = {duration = 45000, delay = 70000, cost = 60},
   [5] = {duration = 40000, delay = 75000, cost = 70}
 }
 
